@@ -41,10 +41,14 @@ void main() {
     } on DioError catch (e) {
       error = e;
     }
-    assert(error.message.toString().contains("HandshakeException"));
+    expect(error, isNotNull);
+    expect(error is Exception, isTrue);
   });
 
+
   test('allow badssl', () async {
+    final request = HttpClient().getUrl(Uri.parse('https://example.com/'));
+
     var dio = Dio();
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
@@ -57,5 +61,5 @@ void main() {
     expect(response.statusCode, 200);
     response = await dio.get('https://self-signed.badssl.com/');
     expect(response.statusCode, 200);
-  });
+  }, testOn: "!browser");
 }
