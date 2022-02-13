@@ -41,7 +41,7 @@ void main() {
     } on DioError catch (e) {
       error = e;
     }
-    expect(error.type, "HandshakeException");
+    assert(error.message.toString().contains("HandshakeException"));
   });
 
   test('allow badssl', () async {
