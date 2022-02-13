@@ -41,8 +41,7 @@ void main() {
     } on DioError catch (e) {
       error = e;
     }
-
-    assert(error.error.osError.toString().contains("Hostname mismatch"));
+    expect(error.type, "HandshakeException");
   });
 
   test('allow badssl', () async {
